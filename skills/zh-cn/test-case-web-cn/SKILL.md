@@ -1,9 +1,11 @@
 ---
-name: test-case-web
+name: test-case-web-cn
 description: Execute website test cases from a provided test-case document and produce evidence-backed QA reports. Use this whenever the user asks to test, verify, validate, QA, regress, or check a website/web app based on a test-case document, markdown test plan, QA checklist, or numbered cases. This skill is especially important when the user mentions a specific section like "1.5", "登录", "上传", "@ 按钮", "按文档测试", or wants screenshots and a final report.
 ---
 
 # Test-Case Web
+
+## 使用场景
 
 Use this skill when the user wants you to test a website against a written test-case document and preserve evidence.
 
@@ -11,24 +13,15 @@ This workflow is designed for authenticated, stateful browser testing. Always pr
 
 Do not default to the in-app browser for this workflow. If Chrome is available, use it.
 
-## What this skill produces
+## 不要使用
 
-For every test run, create:
+Do not use this skill for:
+- Code review of specific changes (use code-reviewer instead)
+- Inspecting a single commit in detail
+- Git operations other than log extraction (branching, merging, etc.)
+- Non-git-related report generation
 
-- `测试结果.md`: human-readable per-case results
-- `测试结果.html`: visual report with per-case screenshots
-- `results.json`: normalized machine-readable test results
-- `screenshots/`: evidence images, at least one screenshot per executed test case
-
-Store the outputs under a timestamped run directory inside the current workspace:
-
-`qa-results/YYYY-MM-DD_HH-mm-ss-<topic>/`
-
-Example:
-
-`qa-results/2026-05-11_14-30-00-at-button/`
-
-## Workflow
+## 使用说明
 
 Follow these steps in order.
 
