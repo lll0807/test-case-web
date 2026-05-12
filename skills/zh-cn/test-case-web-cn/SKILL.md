@@ -1,101 +1,101 @@
 ---
 name: test-case-web-cn
-description: Execute website test cases from a provided test-case document and produce evidence-backed QA reports. Use this whenever the user asks to test, verify, validate, QA, regress, or check a website/web app based on a test-case document, markdown test plan, QA checklist, or numbered cases. This skill is especially important when the user mentions a specific section like "1.5", "登录", "上传", "@ 按钮", "按文档测试", or wants screenshots and a final report.
+description: 根据提供的测试用例文档执行网站测试，并生成带证据的 QA 报告。当用户要求测试、验证、QA、回归检查网站或 Web 应用，且提供了测试用例文档、Markdown 测试计划、QA 检查表或编号用例时触发此技能。当用户提到具体章节如"1.5"、"登录"、"上传"、"@ 按钮"、"按文档测试"，或要求截图和最终报告时，此技能尤为重要。
 ---
 
 # Test-Case Web
 
 ## 使用场景
 
-Use this skill when the user wants you to test a website against a written test-case document and preserve evidence.
+当用户要求你根据书面的测试用例文档测试网站并保留证据时，使用此技能。
 
-This workflow is designed for authenticated, stateful browser testing. Always prefer `@chrome` and the Chrome skill unless the user explicitly asks for a different browser surface. Many real QA flows depend on the user's existing session, SSO, enterprise login, or multi-tab behavior.
+此工作流专为需要认证、有状态的浏览器测试设计。除非用户明确要求使用其他浏览器，否则始终优先使用 `@chrome` 和 Chrome 技能。许多真实的 QA 流程依赖于用户现有的会话、SSO、企业登录或多标签页行为。
 
-Do not default to the in-app browser for this workflow. If Chrome is available, use it.
+此工作流不要默认使用应用内浏览器。如果 Chrome 可用，请使用 Chrome。
 
 ## 不要使用
 
-Do not use this skill for:
-- Code review of specific changes (use code-reviewer instead)
-- Inspecting a single commit in detail
-- Git operations other than log extraction (branching, merging, etc.)
-- Non-git-related report generation
+以下情况不要使用此技能：
+- 针对具体变更的代码审查（请使用 code-reviewer）
+- 详细检查单个提交
+- 除日志提取外的 Git 操作（分支、合并等）
+- 与 Git 无关的报告生成
 
 ## 使用说明
 
-Follow these steps in order.
+按顺序执行以下步骤。
 
-### 1. Read the test-case source
+### 1. 读取测试用例来源
 
-Start from the document the user provided. If they named a subsection such as `1.5` or a heading such as `@ 按钮功能`, scope the run to that section first.
+从用户提供的文档开始。如果用户指定了子章节（如 `1.5`）或标题（如 `@ 按钮功能`），首先将范围限定到该章节。
 
-Extract, for each test case:
+为每个测试用例提取：
 
-- case id
-- title
-- preconditions
-- steps
-- expected result
+- 用例编号
+- 标题
+- 前置条件
+- 操作步骤
+- 预期结果
 
-If the document encoding is messy, recover what you can from nearby headings and table structure instead of stopping immediately.
+如果文档编码混乱，从附近的标题和表格结构中尽可能恢复信息，而不是立即停止。
 
-If the user did not name a section and the document is large, identify the major sections and test only the requested area. If the request is ambiguous, ask one concise clarification question.
+如果用户没有指定章节且文档很大，识别主要章节并只测试请求的区域。如果请求不明确，提出一个简洁的澄清问题。
 
-### 2. Open the target site in Chrome
+### 2. 在 Chrome 中打开目标网站
 
-Use `@chrome` / Chrome-backed browser automation, not the in-app browser, unless the user explicitly asks otherwise.
+使用 `@chrome` / Chrome 支持的浏览器自动化，除非用户明确要求，否则不要使用应用内浏览器。
 
-Treat this as a hard default:
+将此作为硬性默认规则：
 
-- always open the target site in the user's real Chrome environment
-- keep the working tab available for the user to see and interact with
-- do not hide the critical login page in a background-only flow when the user needs to act on it
+- 始终在用户的真实 Chrome 环境中打开目标网站
+- 保持工作标签页可供用户查看和交互
+- 当用户需要操作时，不要将关键的登录页面隐藏在仅后台的流程中
 
-Open the requested site and inspect whether the flow is already authenticated.
+打开请求的网站并检查流程是否已认证。
 
-If login is required:
+如果需要登录：
 
-- tell the user clearly that login is needed
-- tell the user that the page has been opened in Chrome for them
-- keep the browser on the right page
-- keep the tab open as a visible handoff for the user
-- wait for the user to finish logging in
-- after the user confirms they are logged in, resume from the same Chrome session
+- 清楚告知用户需要登录
+- 告知用户已为其在 Chrome 中打开页面
+- 保持浏览器停留在正确的页面
+- 将标签页保持为可见的交接物，供用户使用
+- 等待用户完成登录
+- 用户确认已登录后，从同一个 Chrome 会话继续
 
-Do not attempt to bypass login. Do not ask the user to repeat work you can preserve through the existing Chrome tab.
+不要尝试绕过登录。不要要求用户重复你通过现有 Chrome 标签页可以保留的工作。
 
-When login or manual action is needed, treat the Chrome tab as a handoff artifact rather than a hidden implementation detail.
+当需要登录或手动操作时，将 Chrome 标签页视为交接物，而不是隐藏的实现细节。
 
-### 3. Execute test cases one by one
+### 3. 逐个执行测试用例
 
-For each test case:
+对每个测试用例：
 
-1. Restate the test intent to yourself from the document.
-2. Bring the page into the needed state.
-3. Execute only the minimum actions required.
-4. Compare actual behavior against the expected result.
-5. Capture evidence before moving on.
+1. 从文档中向自己重述测试意图。
+2. 将页面带入所需状态。
+3. 只执行最少必要的操作。
+4. 将实际行为与预期结果对比。
+5. 在继续之前捕获证据。
 
-For every executed test case, capture at least:
+对每个执行的测试用例，至少捕获：
 
-- one screenshot that supports the final verdict
+- 一张支持最终结论的截图
 
-Capture additional screenshots when:
+在以下情况捕获额外截图：
 
-- the case fails
-- the state changes across steps
-- the bug is easier to understand with before/after evidence
+- 用例失败时
+- 状态跨步骤变化时
+- 有前后对比证据更容易理解缺陷时
 
-Use screenshot filenames that preserve execution order and case traceability:
+使用保留执行顺序和用例可追溯性的截图文件名：
 
 - `TC-V-1.5-01-01.png`
 - `TC-V-1.5-01-02.png`
 
-If a case cannot be completed because of a blocker, still capture a screenshot and mark the case as `blocked`.
+如果用例因阻塞无法完成，仍然捕获截图并将用例标记为 `blocked`。
 
-### 4. Record structured results as you go
+### 4. 在过程中记录结构化结果
 
-Create `results.json` incrementally during the run. Use this schema:
+在运行期间逐步创建 `results.json`。使用以下结构：
 
 ```json
 {
@@ -128,20 +128,20 @@ Create `results.json` incrementally during the run. Use this schema:
 }
 ```
 
-Allowed case status values:
+允许的用例状态值：
 
-- `passed`
-- `failed`
-- `blocked`
-- `not_run`
+- `passed`（通过）
+- `failed`（失败）
+- `blocked`（阻塞）
+- `not_run`（未执行）
 
-Use `not_run` only when the user explicitly narrows scope after extraction or stops the run.
+仅在用户显式缩小范围或停止运行时使用 `not_run`。
 
-### 5. Write `测试结果.md`
+### 5. 编写 `测试结果.md`
 
-After execution, write a concise but complete Markdown report.
+执行完成后，编写简洁但完整的 Markdown 报告。
 
-Use this structure:
+使用以下结构：
 
 ```md
 # 测试结果
@@ -153,10 +153,10 @@ Use this structure:
 - 测试时间：
 
 ## 汇总
-- Passed:
-- Failed:
-- Blocked:
-- Not Run:
+- Passed：
+- Failed：
+- Blocked：
+- Not Run：
 
 ## 逐条结果
 
@@ -169,65 +169,65 @@ Use this structure:
   - [截图1](./screenshots/TC-XXX-01.png)
 ```
 
-Requirements:
+要求：
 
-- every executed case must appear
-- every case must link to its screenshots
-- failed cases should explain the mismatch clearly
-- blocked cases should explain the blocker clearly
+- 每个执行的用例都必须出现
+- 每个用例必须链接到其截图
+- 失败的用例应清楚解释差异
+- 阻塞的用例应清楚解释阻塞原因
 
-### 6. Generate `测试结果.html`
+### 6. 生成 `测试结果.html`
 
-After `results.json` is complete, use the bundled script:
+`results.json` 完成后，使用捆绑的脚本：
 
 `scripts/generate_html_report.py`
 
-The script converts `results.json` into `测试结果.html` with:
+该脚本将 `results.json` 转换为 `测试结果.html`，包含：
 
-- summary cards
-- a per-case result table
-- per-case screenshot gallery
-- color-coded status badges
+- 汇总卡片
+- 逐条结果表格
+- 逐条截图画廊
+- 颜色编码的状态徽章
 
-Do not hand-write the HTML unless the script is missing or broken. If the script fails, fix the input or the script and rerun it.
+除非脚本缺失或损坏，否则不要手写 HTML。如果脚本失败，修复输入或脚本后重新运行。
 
-## Practical testing guidance
+## 实用测试指南
 
-### Login handling
+### 登录处理
 
-When login interrupts the run:
+当登录中断运行时：
 
-- preserve the current Chrome tab
-- leave the relevant Chrome tab open for the user instead of closing or omitting it
-- tell the user exactly what you need: for example, "请先在 Chrome 中完成登录，我登录后继续测试。"
-- make it explicit that the page is open in Chrome and waiting for them
-- once they confirm, rediscover or reclaim the active site tab and continue
+- 保留当前 Chrome 标签页
+- 将相关 Chrome 标签页留给用户，而不是关闭或省略
+- 准确告知用户你的需求，例如："请先在 Chrome 中完成登录，登录完成后我继续测试。"
+- 明确说明页面已在 Chrome 中打开并等待他们
+- 用户确认后，重新发现或回收活动站点标签页并继续
 
-If the user says they cannot see the page, re-open or reclaim the correct Chrome tab and keep it as the active handoff tab before asking them to continue.
+如果用户说看不到页面，重新打开或回收正确的 Chrome 标签页，并在要求他们继续之前将其保持为活动交接标签页。
 
-### Evidence quality
+### 证据质量
 
-Prefer screenshots that make the verdict obvious:
+优先选择能让结论一目了然的截图：
 
-- the relevant control is visible
-- the active mode or selected filter is visible
-- the expected or unexpected state is visible
+- 相关控件可见
+- 活动模式或选中的筛选器可见
+- 预期或意外状态可见
 
-Avoid screenshots that require the reader to guess what was being tested.
+避免需要读者猜测正在测试什么的截图。
 
-### Scope control
+### 范围控制
 
-If the document contains many sections, do not silently test everything. Respect the user's requested section first.
+如果文档包含多个章节，不要静默测试所有内容。首先尊重用户请求的章节。
 
-### Reporting honesty
+### 报告诚实性
 
-Do not mark a test as passed unless the observed behavior matches the expected result.
+除非观察到的行为与预期结果一致，否则不要将测试标记为通过。
 
-If the browser automation path becomes unstable, record a blocker with evidence instead of inventing certainty.
+如果浏览器自动化路径变得不稳定，记录阻塞并附带证据，而不是编造确定性结论。
 
-## Suggested trigger examples
+## 建议的触发示例
 
-This skill should trigger for requests like:
+以下请求应触发此技能：
 
 - "根据这个测试用例文档测试这个网站"
 - "按这个 markdown 测试 1.5 @ 按钮功能"
@@ -236,6 +236,6 @@ This skill should trigger for requests like:
 - "根据测试文档验证这个 web app，并导出 html 报告"
 - "@chrome 打开这个网站并按测试文档执行"
 
-## Bundled files
+## 捆绑文件
 
-- `scripts/generate_html_report.py`: convert `results.json` to `测试结果.html`
+- `scripts/generate_html_report.py`：将 `results.json` 转换为 `测试结果.html`
