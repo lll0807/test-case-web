@@ -41,7 +41,7 @@ npx skills add lll0807/test-case-web --skill test-case-web-cn
 npx skills add lll0807/test-case-web --skill test-case-web-cn -g
 
 # 安装到指定 Agent
-npx skills add lll0807/test-case-web --skill test-case-web-cn -a claude-code
+npx skills add lll0807/test-case-web --skill test-case-web-cn -a codex
 
 # 安装并跳过确认
 npx skills add lll0807/test-case-web --skill test-case-web-cn -y
