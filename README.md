@@ -1,6 +1,6 @@
 # Test-Case Web
 
-一个用于 **Claude Code / Codex** 的技能包（Skill Pack），支持根据书面测试用例文档对网站或 Web 应用进行自动化 QA 测试，并生成带截图证据的结构化测试报告。
+一个用于 **Codex** 的技能包（Skill Pack），支持根据书面测试用例文档对网站或 Web 应用进行自动化 QA 测试，并生成带截图证据的结构化测试报告。
 
 ---
 
@@ -47,7 +47,7 @@ npx skills add lll0807/test-case-web --skill test-case-web-cn -a claude-code
 npx skills add lll0807/test-case-web --skill test-case-web-cn -y
 ```
 
-也可以手动复制技能到 Claude Code 配置目录：
+也可以手动复制技能到 Codex 配置目录：
 
 ```bash
 # 中文版
@@ -226,7 +226,7 @@ test-case-web/
 
 ## 依赖要求
 
-- **Claude Code / Codex** 环境
+- **Codex** 环境
 - **Chrome 浏览器**（用于实际的网页测试和截图）
 - **Python 3.12+**
 
