@@ -9,9 +9,9 @@ description: Execute website test cases from a provided test-case document and p
 
 Use this skill when the user wants you to test a website against a written test-case document and preserve evidence.
 
-This workflow is designed for authenticated, stateful browser testing. Always prefer `@chrome` and the Chrome skill unless the user explicitly asks for a different browser surface. Many real QA flows depend on the user's existing session, SSO, enterprise login, or multi-tab behavior.
+This workflow is designed for authenticated, stateful browser testing. Always prefer `@chrome` and the Chrome / Edge skill unless the user explicitly asks for a different browser surface. Many real QA flows depend on the user's existing session, SSO, enterprise login, or multi-tab behavior.
 
-Do not default to the in-app browser for this workflow. If Chrome is available, use it.
+Do not default to the in-app browser for this workflow. If Chrome / Edge / Edge is available, use it.
 
 ## Do not use
 
@@ -41,13 +41,13 @@ If the document encoding is messy, recover what you can from nearby headings and
 
 If the user did not name a section and the document is large, identify the major sections and test only the requested area. If the request is ambiguous, ask one concise clarification question.
 
-### 2. Open the target site in Chrome
+### 2. Open the target site in Chrome / Edge / Edge
 
-Use `@chrome` / Chrome-backed browser automation, not the in-app browser, unless the user explicitly asks otherwise.
+Use `@chrome` / Chrome / Edge / Edge-backed browser automation, not the in-app browser, unless the user explicitly asks otherwise.
 
 Treat this as a hard default:
 
-- always open the target site in the user's real Chrome environment
+- always open the target site in the user's real Chrome / Edge / Edge environment
 - keep the working tab available for the user to see and interact with
 - do not hide the critical login page in a background-only flow when the user needs to act on it
 
@@ -56,15 +56,15 @@ Open the requested site and inspect whether the flow is already authenticated.
 If login is required:
 
 - tell the user clearly that login is needed
-- tell the user that the page has been opened in Chrome for them
+- tell the user that the page has been opened in Chrome / Edge / Edge for them
 - keep the browser on the right page
 - keep the tab open as a visible handoff for the user
 - wait for the user to finish logging in
-- after the user confirms they are logged in, resume from the same Chrome session
+- after the user confirms they are logged in, resume from the same Chrome / Edge / Edge session
 
-Do not attempt to bypass login. Do not ask the user to repeat work you can preserve through the existing Chrome tab.
+Do not attempt to bypass login. Do not ask the user to repeat work you can preserve through the existing Chrome / Edge tab.
 
-When login or manual action is needed, treat the Chrome tab as a handoff artifact rather than a hidden implementation detail.
+When login or manual action is needed, treat the Chrome / Edge tab as a handoff artifact rather than a hidden implementation detail.
 
 ### 3. Execute test cases one by one
 
@@ -197,13 +197,13 @@ Do not hand-write the HTML unless the script is missing or broken. If the script
 
 When login interrupts the run:
 
-- preserve the current Chrome tab
-- leave the relevant Chrome tab open for the user instead of closing or omitting it
-- tell the user exactly what you need: for example, "Please complete login in Chrome first, and I will continue testing after that."
-- make it explicit that the page is open in Chrome and waiting for them
+- preserve the current Chrome / Edge tab
+- leave the relevant Chrome / Edge tab open for the user instead of closing or omitting it
+- tell the user exactly what you need: for example, "Please complete login in Chrome / Edge first, and I will continue testing after that."
+- make it explicit that the page is open in Chrome / Edge and waiting for them
 - once they confirm, rediscover or reclaim the active site tab and continue
 
-If the user says they cannot see the page, re-open or reclaim the correct Chrome tab and keep it as the active handoff tab before asking them to continue.
+If the user says they cannot see the page, re-open or reclaim the correct Chrome / Edge tab and keep it as the active handoff tab before asking them to continue.
 
 ### Evidence quality
 
