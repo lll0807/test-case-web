@@ -1,6 +1,6 @@
 ---
 name: test-case-web
-description: Execute website test cases from a provided test-case document and produce evidence-backed QA reports. Use this whenever the user asks to test, verify, validate, QA, regress, or check a website/web app based on a test-case document, markdown test plan, QA checklist, or numbered cases. This skill is especially important when the user mentions a specific section like "1.5", "login", "upload", "@ button", "test per doc", or wants screenshots and a final report.
+description: Execute website test cases from a provided test-case document and produce evidence-backed QA reports. Use this whenever the user asks to test, verify, validate, QA, regress, or check a website/web app based on a test-case document, markdown test plan, QA checklist, or numbered cases. This skill is particularly important when the user mentions specific test case sections, testing websites, "help me log in", "upload", "test according to the document", or requests screenshots and a final report.
 ---
 
 # Test-Case Web
